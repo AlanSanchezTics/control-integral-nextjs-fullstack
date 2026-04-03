@@ -28,3 +28,17 @@ TailAdmin is a pre-designed starting point for building a web-based dashboard us
 * Can't forget Dark Mode 🕶️
 
 All components are built with React and styled using Tailwind CSS for easy customization.
+
+## Documentation Path for Agents
+
+For AI agents and contributors, use this documentation route:
+
+1. [Template Technical Index](docs/tailadmin-template-docs/index.md)
+2. [Functional Specification](docs/specification.md)
+3. [Architecture Rules](docs/architecture/routing.md)
+4. [Business Rules](docs/architecture/business-rules.md)
+
+Notes:
+
+- The template technical source for components, patterns, integration, and structure is [docs/tailadmin-template-docs/index.md](docs/tailadmin-template-docs/index.md).
+- The functional source of truth remains [docs/specification.md](docs/specification.md).
