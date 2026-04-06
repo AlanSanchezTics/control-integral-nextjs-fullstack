@@ -1,5 +1,5 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 
@@ -59,13 +59,13 @@ function readRequestHeader(
 
 export function getAuthSessionOptions(rememberMe = false) {
   return {
-    strategy: "database" as const,
+    strategy: "jwt" as const,
     maxAge: resolveSessionMaxAgeSeconds(rememberMe),
     updateAge: AUTH_REMEMBER_SESSION_MAX_AGE_SECONDS,
   };
 }
 
-export const authConfig: NextAuthConfig = {
+export const authConfig: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   session: getAuthSessionOptions(false),
   providers: [

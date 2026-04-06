@@ -1,4 +1,4 @@
-import { createHash, randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "crypto";
 
 import { AUTH_ERROR_CODES, AUTH_PASSWORD_RESET_TOKEN_TTL_MS } from "./constants";
 import type {

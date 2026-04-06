@@ -9,7 +9,7 @@ import {
 describe("auth config", () => {
   test("uses credentials provider", () => {
     expect(authConfig.providers.length).toBeGreaterThan(0);
-    expect(authConfig.session?.strategy).toBe("database");
+    expect(authConfig.session?.strategy).toBe("jwt");
     expect(authConfig.pages?.signIn).toBe("/login");
     expect(authConfig.session?.maxAge).toBe(AUTH_STANDARD_SESSION_MAX_AGE_SECONDS);
     expect(getAuthSessionOptions(true).maxAge).toBe(
