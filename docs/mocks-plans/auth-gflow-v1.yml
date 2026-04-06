@@ -1,0 +1,40 @@
+Trabajemos en el siguiente feature: Sistema de autenticación
+  Objetivo: Permitir a los usuarios iniciar sesión de manera segura en la aplicación.
+  Requisitos:
+    - El sistema debe permitir a los usuarios iniciar sesión utilizando correo electrónico o numero de teléfono, y contraseña.
+    - El sistema debe validar las credenciales del usuario y proporcionar acceso a la aplicación si son correctas.
+    - El sistema debe manejar errores de autenticación, como credenciales incorrectas o cuentas bloqueadas.
+    - El sistema debe implementar medidas de seguridad, como bloqueo de cuenta después de varios intentos fallidos de inicio de sesión.
+    - El sistema debe permitir a los usuarios restablecer su contraseña en caso de olvido.
+    - El sistema debe ser compatible con dispositivos móviles y de escritorio.
+  Funcionalidades adicionales:
+    - El sistema debe permitir a los usuarios mantener su sesión iniciada durante un período de tiempo determinado.
+    - El sistema debe permitir a los usuarios cerrar sesión de manera segura.
+    - El sistema debe registrar los intentos de inicio de sesión para monitorear actividades sospechosas.
+    - El sistema debe proporcionar una opción para que los usuarios recuerden su información de inicio de sesión en dispositivos confiables.
+  consideraciones:
+    - La ruta de inicio de sesión debe ser "/login". Para esto se debe generar un nuevo page.tsx en la carpeta "app/login" y adaptar el componente SignInForm(src/components/auth/SignInForm.tsx) a los requerimientos.
+    - La ruta de restablecimiento de contraseña debe ser "/reset-password" y basarse en el componente SignInForm(src/components/auth/SignInForm.tsx) para la generación del componente ResetPasswordForm(src/components/auth/ResetPasswordForm.tsx).
+  Fuera de alcance:
+    - Implementación de autenticación de dos factores.
+    - Implementación de medidas de seguridad adicionales, como CAPTCHA.
+    - Implementación de proceso para generación de nuevas cuentas desde la aplicación.
+    - Autenticación de dos factores para mayor seguridad.
+    - Integración con servicios de autenticación de terceros, como Google o Facebook.
+  Puntos técnicos:
+    - Crear middleware.ts.
+    - Agregar guardas de rutas con auth a todas las rutas dentro de "app/" excepto "/login" y "/reset-password".
+    - Implementar lógica de autenticación en el frontend utilizando React Context para manejar el estado de autenticación.
+    - Implementar validación de formularios en el frontend para el inicio de sesión y el restablecimiento de contraseña.
+    - Implementar manejo de errores en el frontend para mostrar mensajes de error adecuados a los usuarios.
+    - Implementar pruebas unitarias y de integración para asegurar la funcionalidad del sistema de autenticación.
+
+Con esto, genera un plan para el diseño, desarrollo e implementación del feature.
+Utiliza la skill Writing Plans para la generación del plan
+El plan debe dividirse en las siguientes fases:
+1. requerimientos
+2. diseño
+3. Lista de tareas
+4. desarrollo
+5. pruebas
+6. despliegue
