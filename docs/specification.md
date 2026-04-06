@@ -32,7 +32,7 @@ Este documento está diseñado para servir como especificación fuente para impl
 ## 2. Contexto General
 
 - Profesional única (no múltiples recursos).
-- Fuente de verdad: MySQL.
+- Fuente de verdad persistente: MariaDB (acceso vía Prisma ORM).
 - Zona horaria obligatoria: America/Mexico_City.
 
 ---
@@ -42,13 +42,26 @@ Este documento está diseñado para servir como especificación fuente para impl
 - Next js
 - Tailwind css
 - Prisma ORM
+- MariaDB
 - Docker para generar ambiente
 - i18next
 - react-i18next
 - next-auth (credentials provider)
 - Node crypto (hash de contraseña admin con salt + pepper)
+- Vitest (pruebas unitarias y de contrato)
+- Playwright (smoke e2e)
 
-## 4. Internacionalización y Contrato de Mensajes
+## 4. Baseline técnico de foundation (sin cambio de flujo)
+
+En la fase de preparación de stack se habilita infraestructura técnica base para:
+
+- conexión Prisma + MariaDB
+- endpoint técnico de autenticación NextAuth (`/api/auth/[...nextauth]`)
+- ejecución de pruebas unitarias con Vitest
+- ejecución de smoke E2E con Playwright
+
+Esta fase no altera el flujo funcional de booking/cancel ni los pasos UX del producto.
+## 5. Internacionalización y Contrato de Mensajes
 
 Reglas obligatorias:
 

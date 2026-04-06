@@ -120,6 +120,15 @@ Expected sub-responsibilities:
 Rule:
 - If logic must remain correct independent of React rendering, it belongs in `src/lib/`.
 
+### prisma/
+
+`prisma/` owns schema and migration artifacts for relational persistence.
+
+Convention:
+- `prisma/schema.prisma` defines data models and relations.
+- `prisma/migrations/` stores migration history.
+- Runtime datasource URL resolution is handled in `prisma.config.ts`.
+
 ### Current observations
 
 These are current-state observations, not blockers for new work:
@@ -136,6 +145,7 @@ These are current-state observations, not blockers for new work:
 - Place feature flow hooks in `src/hooks/<feature>/`.
 - Place cross-feature hooks in `src/hooks/shared/` (or `src/hooks/` when very small).
 - Place business rules, data access, and integrations in `src/lib/`.
+- Place Prisma schema/migrations in `prisma/` and Prisma CLI config in `prisma.config.ts`.
 - Place schemas and runtime validation in `src/lib/validation/`.
 - Keep tests aligned with responsibility:
   - route/API behavior tests under `src/tests/app/`

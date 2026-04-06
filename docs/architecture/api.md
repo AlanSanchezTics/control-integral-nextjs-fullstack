@@ -172,6 +172,16 @@ Error conventions:
 
 ---
 
+## Foundation Endpoint Baseline
+
+As part of the technical stack foundation, the project includes the NextAuth transport endpoint:
+
+- `src/app/api/auth/[...nextauth]/route.ts` with `GET` and `POST` handlers.
+
+This endpoint is infrastructure-level and does not represent a business workflow change by itself.
+
+---
+
 ## Evolution and Versioning Considerations
 
 - Avoid introducing versioning (`/v1`, `/v2`) unless strictly necessary.

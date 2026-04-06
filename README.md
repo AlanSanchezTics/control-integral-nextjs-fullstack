@@ -42,3 +42,20 @@ Notes:
 
 - The template technical source for components, patterns, integration, and structure is [docs/tailadmin-template-docs/index.md](docs/tailadmin-template-docs/index.md).
 - The functional source of truth remains [docs/specification.md](docs/specification.md).
+
+## Stack Foundation (Prepared)
+
+The project is prepared with baseline infrastructure for:
+
+- Prisma ORM + MariaDB
+- NextAuth (`/api/auth/[...nextauth]`)
+- Vitest unit/contract tests
+- Playwright E2E smoke tests
+
+Useful scripts:
+
+- `npm run db:generate`
+- `npm run db:migrate:dev`
+- `npm run db:migrate:deploy`
+- `npm run test:unit`
+- `npm run test:e2e`
