@@ -7,7 +7,7 @@ datasource db {
 }
 
 model User {
-  id                    String    @id @default(cuid()) @map("id")
+  id                    BigInt    @id @default(autoincrement()) @db.UnsignedBigInt @map("id")
   email                 String    @unique(map: "users_email_key") @map("email")
   phone                 String?    @unique(map: "users_phone_key") @map("phone")
   passwordHash          String?   @map("password_hash")
@@ -29,8 +29,8 @@ model User {
 }
 
 model Account {
-  id                String  @id @default(cuid()) @map("id")
-  userId            String  @map("user_id")
+  id                BigInt  @id @default(autoincrement()) @db.UnsignedBigInt @map("id")
+  userId            BigInt  @db.UnsignedBigInt @map("user_id")
   type              String  @map("type")
   provider          String  @map("provider")
   providerAccountId String  @map("provider_account_id")
@@ -58,8 +58,8 @@ model VerificationToken {
 }
 
 model LoginAttempt {
-  id         String   @id @default(cuid()) @map("id")
-  userId     String?  @map("user_id")
+  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt @map("id")
+  userId     BigInt?  @db.UnsignedBigInt @map("user_id")
   identifier String   @map("identifier")
   status     String   @map("status")
   ipAddress  String?  @map("ip_address")
@@ -76,8 +76,8 @@ model LoginAttempt {
 }
 
 model PasswordResetToken {
-  id         String   @id @default(cuid()) @map("id")
-  userId     String?  @map("user_id")
+  id         BigInt   @id @default(autoincrement()) @db.UnsignedBigInt @map("id")
+  userId     BigInt?  @db.UnsignedBigInt @map("user_id")
   identifier String   @map("identifier")
   token      String   @unique(map: "password_reset_tokens_token_key") @map("token")
   expires    DateTime @map("expires")

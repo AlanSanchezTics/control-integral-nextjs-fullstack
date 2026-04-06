@@ -141,7 +141,12 @@ Convention:
   - Physical database objects (tables/columns/indexes/constraints) must be `snake_case`.
   - Prisma models/types should be `PascalCase`.
   - Use `@@map` and `@map` to keep Prisma domain naming and DB naming aligned without ambiguity.
+  - PK/FK identifier rule:
+    - Primary keys of entities must be `BIGINT UNSIGNED AUTO_INCREMENT`.
+    - Foreign keys between entities must be `BIGINT UNSIGNED`.
+    - In Prisma: use `BigInt` + `@db.UnsignedBigInt`; PKs with `@default(autoincrement())`.
   - Integration-required field names (e.g. NextAuth account token fields) may keep external contract names, but must map to `snake_case` DB objects.
+  - Security/functional tokens are excluded from PK/FK rule and may remain `String`.
 
 ### Current observations
 

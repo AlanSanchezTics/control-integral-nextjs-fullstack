@@ -98,12 +98,18 @@ Reglas obligatorias para nuevas entidades/cambios de persistencia:
   - tablas: `snake_case` plural (ej. `users`, `verification_tokens`)
   - columnas: `snake_case` (ej. `password_hash`, `created_at`, `user_id`)
   - índices y constraints: `snake_case` descriptivo
+- Regla de oro de identificadores persistentes:
+  - Todo identificador de entidad (PK) debe ser `BIGINT UNSIGNED AUTO_INCREMENT`.
+  - Toda referencia entre entidades (FK) debe usar `BIGINT UNSIGNED`.
+  - Esta regla aplica a entidades de dominio e infraestructura (incluyendo auth).
 - Prisma ORM:
   - modelos y tipos: `PascalCase` (ej. `User`, `VerificationToken`)
   - el mapeo hacia objetos DB debe declararse explícitamente con `@@map` y `@map` cuando aplique.
+  - Los IDs deben modelarse como `BigInt` con `@db.UnsignedBigInt`; PK con `@default(autoincrement())`.
 
 Excepción permitida:
 - En modelos requeridos por integraciones externas (ej. NextAuth `Account`) se permiten campos con contrato externo específico para compatibilidad, manteniendo siempre que el objeto físico en DB siga `snake_case`.
+- Tokens funcionales (ej. `verification_tokens.token`, hashes de reset, session/JWT tokens) pueden permanecer `String` porque no son PK/FK de entidades.
 
 ## 6. Internacionalización y Contrato de Mensajes
 

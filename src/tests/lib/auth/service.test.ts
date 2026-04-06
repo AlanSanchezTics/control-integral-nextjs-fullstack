@@ -16,7 +16,7 @@ function createFakeRepository(user: AuthUserRecord | null): {
   repository: AuthRepository;
   attempts: LoginAttemptRecordInput[];
   updatedStates: Array<{
-    userId: string;
+    userId: bigint;
     data: Partial<{
       failedLoginAttempts: number;
       lockedUntil: Date | null;
@@ -26,7 +26,7 @@ function createFakeRepository(user: AuthUserRecord | null): {
 } {
   const attempts: LoginAttemptRecordInput[] = [];
   const updatedStates: Array<{
-    userId: string;
+    userId: bigint;
     data: Partial<{
       failedLoginAttempts: number;
       lockedUntil: Date | null;
@@ -69,7 +69,7 @@ describe("authenticateCredentials", () => {
     const passwordPepper = "pepper";
     const passwordHash = hashPassword("correct-horse", passwordPepper);
     const { repository, attempts, updatedStates } = createFakeRepository({
-      id: "user-1",
+      id: BigInt(1),
       email: "user@example.com",
       phone: "+15551112222",
       passwordHash,
@@ -96,7 +96,7 @@ describe("authenticateCredentials", () => {
     expect(result).toEqual({
       ok: true,
       user: {
-        id: "user-1",
+        id: BigInt(1),
         email: "user@example.com",
         name: "User One",
         image: null,
@@ -106,7 +106,7 @@ describe("authenticateCredentials", () => {
     });
     expect(updatedStates).toEqual([
       {
-        userId: "user-1",
+        userId: BigInt(1),
         data: {
           failedLoginAttempts: 0,
           lockedUntil: null,
@@ -123,7 +123,7 @@ describe("authenticateCredentials", () => {
     const passwordPepper = "pepper";
     const passwordHash = hashPassword("correct-horse", passwordPepper);
     const { repository, attempts, updatedStates } = createFakeRepository({
-      id: "user-1",
+      id: BigInt(1),
       email: "user@example.com",
       phone: "+15551112222",
       passwordHash,

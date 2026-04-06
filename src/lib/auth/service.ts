@@ -35,7 +35,7 @@ export function resolveSessionMaxAgeSeconds(rememberMe = false): number {
 }
 
 export function toSessionUser(user: {
-  id: string;
+  id: bigint;
   email: string;
   name: string | null;
   image: string | null;

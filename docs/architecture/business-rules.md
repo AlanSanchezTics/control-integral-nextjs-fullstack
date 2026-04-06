@@ -6,6 +6,12 @@ Define the business rules that govern the appointment domain for the manicure bo
 
 This document captures domain behavior, constraints, states, and decision rules without implementation-level details.
 
+## Data Model Identifier Rules
+
+- Persistent entity identifiers are standardized as `BIGINT UNSIGNED AUTO_INCREMENT`.
+- Foreign keys across persistent entities must use the same `BIGINT UNSIGNED` type.
+- Functional/security tokens (verification, reset, JWT/session tokens) are not entity identifiers and may remain strings.
+
 ## Authentication Rules
 
 - Login identifiers are email or phone number; the value must be normalized before lookup.

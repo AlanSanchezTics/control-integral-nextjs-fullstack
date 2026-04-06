@@ -17,8 +17,8 @@ describe("password reset token lifecycle", () => {
 
     const validation = validatePasswordResetToken(
       {
-        id: "reset-token-1",
-        userId: "user-1",
+        id: BigInt(1),
+        userId: BigInt(1),
         identifier: "user@example.com",
         token: snapshot.tokenHash,
         expires: snapshot.expiresAt,
@@ -36,8 +36,8 @@ describe("password reset token lifecycle", () => {
     const now = new Date("2026-04-06T12:00:00.000Z");
     const validation = validatePasswordResetToken(
       {
-        id: "reset-token-1",
-        userId: "user-1",
+        id: BigInt(1),
+        userId: BigInt(1),
         identifier: "user@example.com",
         token: hashPasswordResetToken("candidate"),
         expires: new Date("2026-04-06T11:59:59.000Z"),
@@ -58,8 +58,8 @@ describe("password reset token lifecycle", () => {
     const now = new Date("2026-04-06T12:00:00.000Z");
     const token = createPasswordResetToken(now, 30 * 60 * 1000);
     const record = {
-      id: "reset-token-1",
-      userId: "user-1",
+      id: BigInt(1),
+      userId: BigInt(1),
       identifier: "user@example.com",
       token: token.tokenHash,
       expires: token.expiresAt,

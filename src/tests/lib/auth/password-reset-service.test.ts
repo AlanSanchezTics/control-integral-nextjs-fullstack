@@ -14,7 +14,7 @@ function createRepositoryForResetFlow() {
     [
       "user@example.com",
       {
-        id: "user-1",
+        id: BigInt(1),
         email: "user@example.com",
         phone: null,
         passwordHash: hashPassword("old-password", "pepper"),
@@ -46,7 +46,7 @@ function createRepositoryForResetFlow() {
     },
     async createPasswordResetToken(input) {
       records.push({
-        id: `token-${records.length + 1}`,
+        id: BigInt(records.length + 1),
         userId: input.userId,
         identifier: input.identifier,
         token: input.token,
@@ -87,7 +87,7 @@ describe("password reset service", () => {
 
     await repository.createPasswordResetToken({
       identifier: "user@example.com",
-      userId: "user-1",
+      userId: BigInt(1),
       token: snapshot.tokenHash,
       expires: snapshot.expiresAt,
       usedAt: null,

@@ -1,14 +1,13 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { NextAuthOptions } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 
-import { prisma } from "../db/prisma";
 import {
   AUTH_REMEMBER_SESSION_MAX_AGE_SECONDS,
   AUTH_STANDARD_SESSION_MAX_AGE_SECONDS,
 } from "./constants";
+import { createNextAuthBigIntAdapter } from "./next-auth-bigint-adapter";
 import { createPrismaAuthRepository } from "./repository";
 import {
   authenticateCredentials,
@@ -83,7 +82,7 @@ function resolveSessionExpiresAtFromJwtToken(token: JWT): number {
 }
 
 export const authConfig: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: createNextAuthBigIntAdapter(),
   session: getAuthSessionOptions(true),
   jwt: {
     maxAge: AUTH_REMEMBER_SESSION_MAX_AGE_SECONDS,
@@ -128,6 +127,7 @@ export const authConfig: NextAuthOptions = {
 
         return {
           ...result.user,
+          id: result.user.id.toString(),
           rememberMe: result.rememberMe,
           sessionMaxAgeSeconds: result.sessionMaxAgeSeconds,
         };

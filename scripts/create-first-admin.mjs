@@ -176,10 +176,9 @@ async function main() {
 
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [
-          { email: normalizedEmail },
-          normalizedPhone ? { phone: normalizedPhone } : { id: "__never__" },
-        ],
+        OR: normalizedPhone
+          ? [{ email: normalizedEmail }, { phone: normalizedPhone }]
+          : [{ email: normalizedEmail }],
       },
       select: { id: true, email: true, phone: true },
     });
@@ -209,7 +208,16 @@ async function main() {
     });
 
     console.info("Admin user created successfully.");
-    console.info(JSON.stringify(user, null, 2));
+    console.info(
+      JSON.stringify(
+        {
+          ...user,
+          id: user.id.toString(),
+        },
+        null,
+        2,
+      ),
+    );
   } finally {
     await prisma.$disconnect();
   }

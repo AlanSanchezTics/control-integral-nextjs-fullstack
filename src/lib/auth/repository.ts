@@ -15,7 +15,7 @@ export interface AuthPrismaUserDelegate {
     };
   }): Promise<AuthUserRecord | null>;
   update(args: {
-    where: { id: string };
+    where: { id: bigint };
     data: Partial<Pick<AuthUserRecord, "failedLoginAttempts" | "lockedUntil" | "lastLoginAt" | "passwordHash">> & {
       failedLoginAttempts?: number;
       lockedUntil?: Date | null;
@@ -34,12 +34,12 @@ export interface AuthPrismaPasswordResetTokenDelegate {
   findFirst(args: {
     where: {
       token?: string;
-      userId?: string;
+      userId?: bigint;
       identifier?: string;
     };
   }): Promise<PasswordResetTokenRecord | null>;
   update(args: {
-    where: { id: string };
+    where: { id: bigint };
     data: Partial<PasswordResetTokenRecord>;
   }): Promise<PasswordResetTokenRecord>;
 }

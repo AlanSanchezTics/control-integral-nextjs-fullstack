@@ -13,7 +13,7 @@ export interface ParsedAuthIdentifier {
 export type LoginAttemptStatus = "success" | "failure" | "blocked";
 
 export interface AuthUserRecord {
-  id: string;
+  id: bigint;
   email: string;
   phone: string | null;
   passwordHash: string | null;
@@ -25,7 +25,7 @@ export interface AuthUserRecord {
 }
 
 export interface AuthSessionUser {
-  id: string;
+  id: bigint;
   email: string;
   name: string | null;
   image: string | null;
@@ -49,7 +49,7 @@ export interface ConfirmPasswordResetInput {
 
 export interface LoginAttemptRecordInput {
   identifier: string;
-  userId: string | null;
+  userId: bigint | null;
   status: LoginAttemptStatus;
   reason: AuthErrorCode | null;
   createdAt: Date;
@@ -58,8 +58,8 @@ export interface LoginAttemptRecordInput {
 }
 
 export interface PasswordResetTokenRecord {
-  id: string;
-  userId: string | null;
+  id: bigint;
+  userId: bigint | null;
   identifier: string;
   token: string;
   expires: Date;
@@ -69,7 +69,7 @@ export interface PasswordResetTokenRecord {
 
 export interface CreatePasswordResetTokenInput {
   identifier: string;
-  userId: string | null;
+  userId: bigint | null;
   token: string;
   expires: Date;
   usedAt?: Date | null;
@@ -79,14 +79,14 @@ export interface CreatePasswordResetTokenInput {
 export interface AuthRepository {
   findUserByIdentifier(identifier: string): Promise<AuthUserRecord | null>;
   updateUserAuthState(
-    userId: string,
+    userId: bigint,
     data: Partial<Pick<AuthUserRecord, "failedLoginAttempts" | "lockedUntil" | "lastLoginAt">>,
   ): Promise<void>;
-  updateUserPasswordHash(userId: string, passwordHash: string): Promise<void>;
+  updateUserPasswordHash(userId: bigint, passwordHash: string): Promise<void>;
   recordLoginAttempt(input: LoginAttemptRecordInput): Promise<void>;
   createPasswordResetToken(input: CreatePasswordResetTokenInput): Promise<void>;
   findPasswordResetTokenByHash(tokenHash: string): Promise<PasswordResetTokenRecord | null>;
-  consumePasswordResetToken(tokenId: string, consumedAt: Date): Promise<void>;
+  consumePasswordResetToken(tokenId: bigint, consumedAt: Date): Promise<void>;
 }
 
 export interface AuthenticateCredentialsResult {
