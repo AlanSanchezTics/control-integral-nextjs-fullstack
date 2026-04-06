@@ -7,19 +7,26 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid()) @map("id")
-  email         String    @unique(map: "users_email_key") @map("email")
-  passwordHash  String?   @map("password_hash")
-  name          String?
-  emailVerified DateTime? @map("email_verified")
-  image         String?
-  createdAt     DateTime  @default(now()) @map("created_at")
-  updatedAt     DateTime  @updatedAt @map("updated_at")
+  id                    String    @id @default(cuid()) @map("id")
+  email                 String    @unique(map: "users_email_key") @map("email")
+  phone                 String?    @unique(map: "users_phone_key") @map("phone")
+  passwordHash          String?   @map("password_hash")
+  failedLoginAttempts   Int       @default(0) @map("failed_login_attempts")
+  lockedUntil           DateTime? @map("locked_until")
+  lastLoginAt           DateTime? @map("last_login_at")
+  name                  String?
+  emailVerified         DateTime? @map("email_verified")
+  image                 String?
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
 
   accounts Account[]
   sessions Session[]
+  loginAttempts LoginAttempt[]
+  passwordResetTokens PasswordResetToken[]
 
   @@map("users")
+  @@index([lockedUntil], map: "users_locked_until_idx")
 }
 
 model Account {
@@ -60,4 +67,39 @@ model VerificationToken {
 
   @@unique([identifier, token], map: "verification_tokens_identifier_token_key")
   @@map("verification_tokens")
+}
+
+model LoginAttempt {
+  id         String   @id @default(cuid()) @map("id")
+  userId     String?  @map("user_id")
+  identifier String   @map("identifier")
+  status     String   @map("status")
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @db.Text @map("user_agent")
+  reason     String?  @db.VarChar(191) @map("reason")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull, map: "login_attempts_user_id_fkey")
+
+  @@map("login_attempts")
+  @@index([identifier, createdAt], map: "login_attempts_identifier_created_at_idx")
+  @@index([userId, createdAt], map: "login_attempts_user_id_created_at_idx")
+  @@index([status, createdAt], map: "login_attempts_status_created_at_idx")
+}
+
+model PasswordResetToken {
+  id         String   @id @default(cuid()) @map("id")
+  userId     String?  @map("user_id")
+  identifier String   @map("identifier")
+  token      String   @unique(map: "password_reset_tokens_token_key") @map("token")
+  expires    DateTime @map("expires")
+  usedAt     DateTime? @map("used_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull, map: "password_reset_tokens_user_id_fkey")
+
+  @@map("password_reset_tokens")
+  @@index([identifier, createdAt], map: "password_reset_tokens_identifier_created_at_idx")
+  @@index([userId, createdAt], map: "password_reset_tokens_user_id_created_at_idx")
+  @@index([expires], map: "password_reset_tokens_expires_idx")
 }
