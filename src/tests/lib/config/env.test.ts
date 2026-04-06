@@ -11,13 +11,13 @@ describe("env contract", () => {
 
   test("returns normalized env values", () => {
     const env = getEnv({
-      DATABASE_URL: "mysql://app:app@localhost:3307/app",
+      DATABASE_URL: "mysql://app:app@localhost:3307/control_integral_app",
       AUTH_SECRET: "secret",
       AUTH_PASSWORD_PEPPER: "pepper_secret",
       AUTH_TRUST_HOST: "true",
     } as NodeJS.ProcessEnv);
 
-    expect(env.DATABASE_URL).toBe("mysql://app:app@localhost:3307/app");
+    expect(env.DATABASE_URL).toBe("mysql://app:app@localhost:3307/control_integral_app");
     expect(env.AUTH_SECRET).toBe("secret");
     expect(env.AUTH_PASSWORD_PEPPER).toBe("pepper_secret");
     expect(env.AUTH_TRUST_HOST).toBe(true);

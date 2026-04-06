@@ -5,7 +5,8 @@ const globalForPrisma = globalThis as unknown as {
   prisma?: PrismaClient;
 };
 
-const databaseUrl = process.env.DATABASE_URL ?? "mysql://app:app@localhost:3307/app";
+const databaseUrl =
+  process.env.DATABASE_URL ?? "mysql://app:app@localhost:3307/control_integral_app";
 
 const adapter = new PrismaMariaDb({
   connectionString: databaseUrl,

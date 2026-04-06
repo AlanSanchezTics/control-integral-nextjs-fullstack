@@ -4,7 +4,7 @@ services:
     container_name: ciaig-mariadb
     restart: unless-stopped
     environment:
-      MARIADB_DATABASE: app
+      MARIADB_DATABASE: control_integral_app
       MARIADB_USER: app
       MARIADB_PASSWORD: app
       MARIADB_ROOT_PASSWORD: root
