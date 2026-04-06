@@ -13,7 +13,7 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
     "test:unit": "vitest run",
-    "test:e2e": "playwright test",
+    "test:e2e": "PLAYWRIGHT_BROWSERS_PATH=0 playwright test",
     "test": "npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
