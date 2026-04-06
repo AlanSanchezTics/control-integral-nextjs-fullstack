@@ -128,6 +128,11 @@ Convention:
 - `prisma/schema.prisma` defines data models and relations.
 - `prisma/migrations/` stores migration history.
 - Runtime datasource URL resolution is handled in `prisma.config.ts`.
+- Naming policy:
+  - Physical database objects (tables/columns/indexes/constraints) must be `snake_case`.
+  - Prisma models/types should be `PascalCase`.
+  - Use `@@map` and `@map` to keep Prisma domain naming and DB naming aligned without ambiguity.
+  - Integration-required field names (e.g. NextAuth account token fields) may keep external contract names, but must map to `snake_case` DB objects.
 
 ### Current observations
 

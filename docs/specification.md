@@ -61,7 +61,23 @@ En la fase de preparación de stack se habilita infraestructura técnica base pa
 - ejecución de smoke E2E con Playwright
 
 Esta fase no altera el flujo funcional de booking/cancel ni los pasos UX del producto.
-## 5. Internacionalización y Contrato de Mensajes
+
+## 5. Convención de nomenclatura persistente (obligatoria)
+
+Reglas obligatorias para nuevas entidades/cambios de persistencia:
+
+- Base de datos (MariaDB): nombres en `snake_case`.
+  - tablas: `snake_case` plural (ej. `users`, `verification_tokens`)
+  - columnas: `snake_case` (ej. `password_hash`, `created_at`, `user_id`)
+  - índices y constraints: `snake_case` descriptivo
+- Prisma ORM:
+  - modelos y tipos: `PascalCase` (ej. `User`, `VerificationToken`)
+  - el mapeo hacia objetos DB debe declararse explícitamente con `@@map` y `@map` cuando aplique.
+
+Excepción permitida:
+- En modelos requeridos por integraciones externas (ej. NextAuth `Account`) se permiten campos con contrato externo específico para compatibilidad, manteniendo siempre que el objeto físico en DB siga `snake_case`.
+
+## 6. Internacionalización y Contrato de Mensajes
 
 Reglas obligatorias:
 
