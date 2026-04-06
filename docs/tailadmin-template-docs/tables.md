@@ -31,7 +31,7 @@ This document covers table-related UI patterns in TailAdmin, including `BasicTab
 
 ### Usage example in App Router
 
-- Source page: `src/app/(admin)/(others-pages)/(tables)/basic-tables/page.tsx`
+- Source page: `src/app/storybook/(admin)/(others-pages)/(tables)/basic-tables/page.tsx`
 - Embedded usage detected: ✅ Yes
 
 ```tsx

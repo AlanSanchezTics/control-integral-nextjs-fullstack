@@ -63,3 +63,7 @@ Useful scripts:
 Local DB admin:
 
 - phpMyAdmin via Docker Compose: `http://localhost:8082`
+
+UI reference surface:
+
+- Template pages are available at `/storybook/*` (for visual reference only).

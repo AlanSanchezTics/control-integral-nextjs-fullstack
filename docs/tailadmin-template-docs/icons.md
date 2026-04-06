@@ -111,8 +111,8 @@ import { PlusIcon, EyeIcon } from "@/icons";
 
 - Files importing from `@/icons`: **9**
 
-- `src/app/(admin)/(ui-elements)/badge/page.tsx`
-- `src/app/(admin)/(ui-elements)/buttons/page.tsx`
+- `src/app/storybook/(admin)/(ui-elements)/badge/page.tsx`
+- `src/app/storybook/(admin)/(ui-elements)/buttons/page.tsx`
 - `src/components/auth/SignInForm.tsx`
 - `src/components/auth/SignUpForm.tsx`
 - `src/components/ecommerce/DemographicCard.tsx`

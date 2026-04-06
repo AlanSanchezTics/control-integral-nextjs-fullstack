@@ -88,7 +88,7 @@ export default function ExamplePage() {
 }
 ```
 
-Reference detected route: `/basic-tables` from `src/app/(admin)/(others-pages)/(tables)/basic-tables/page.tsx`.
+Reference detected route: `/basic-tables` from `src/app/storybook/(admin)/(others-pages)/(tables)/basic-tables/page.tsx`.
 
 ## Pattern 3: Integrating External Libraries
 

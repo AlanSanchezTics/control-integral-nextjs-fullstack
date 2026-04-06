@@ -101,7 +101,7 @@ TailAdmin uses Next.js route groups to organize pages into logical sections:
 
 #### 1. **(admin)** Route Group
 - **Purpose:** Main admin dashboard pages with sidebar and header layout
-- **Layout:** `src/app/(admin)/layout.tsx`
+- **Layout:** `src/app/storybook/(admin)/layout.tsx`
 - **Features:**
   - Responsive sidebar navigation (collapsible, mobile-friendly)
   - Top header with search, notifications, and user menu
@@ -121,7 +121,7 @@ TailAdmin uses Next.js route groups to organize pages into logical sections:
 
 #### 2. **(full-width-pages)** Route Group
 - **Purpose:** Pages without sidebar/header layout (full-width)
-- **Layout:** `src/app/(full-width-pages)/layout.tsx`
+- **Layout:** `src/app/storybook/(full-width-pages)/layout.tsx`
 - **Features:** Minimal wrapper, no sidebar or header
 - **Sub-groups:**
   - **(auth):** Authentication pages
@@ -129,7 +129,7 @@ TailAdmin uses Next.js route groups to organize pages into logical sections:
 
 #### 3. **(auth)** Sub-group
 - **Purpose:** Authentication and authorization pages
-- **Layout:** `src/app/(full-width-pages)/(auth)/layout.tsx`
+- **Layout:** `src/app/storybook/(full-width-pages)/(auth)/layout.tsx`
 - **Features:**
   - Split-screen design (form on left, branding on right)
   - Centered form layout
@@ -175,7 +175,7 @@ graph TD
 - Loads global styles and fonts (Outfit from Google Fonts)
 - Imports flatpickr CSS for date picker styling
 
-#### Admin Layout (`src/app/(admin)/layout.tsx`)
+#### Admin Layout (`src/app/storybook/(admin)/layout.tsx`)
 - Client component (`"use client"`)
 - Renders:
   - **AppSidebar:** Collapsible navigation sidebar
@@ -186,7 +186,7 @@ graph TD
   - Expanded: `lg:ml-[290px]`
   - Mobile: `ml-0` (sidebar overlays content)
 
-#### Auth Layout (`src/app/(full-width-pages)/(auth)/layout.tsx`)
+#### Auth Layout (`src/app/storybook/(full-width-pages)/(auth)/layout.tsx`)
 - Split-screen design:
   - Left: Authentication form
   - Right: Branding and description (hidden on mobile)
@@ -361,12 +361,12 @@ graph TB
 - **Categories:** auth, charts, forms, tables, ui, ecommerce, user-profile, calendar, videos
 
 ### Page Files
-- **Location:** `src/app/[route-group]/[page-name]/page.tsx`
+- **Location:** `src/app/storybook/[route-group]/[page-name]/page.tsx`
 - **Naming:** Always named `page.tsx`
 - **Route groups:** Use parentheses for grouping without affecting URL
 
 ### Layout Files
-- **Location:** `src/app/[route-group]/layout.tsx`
+- **Location:** `src/app/storybook/[route-group]/layout.tsx`
 - **Naming:** Always named `layout.tsx`
 - **Hierarchy:** Nested layouts compose automatically
 

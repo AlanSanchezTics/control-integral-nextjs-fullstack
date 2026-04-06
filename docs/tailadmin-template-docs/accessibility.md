@@ -73,7 +73,7 @@ These guards are mainly used in context hooks to enforce provider boundaries (e.
 
 - Files related to not-found / error imagery routes: **3**
 
-- `src/app/(full-width-pages)/(error-pages)/error-404/page.tsx`
+- `src/app/storybook/(full-width-pages)/(error-pages)/error-404/page.tsx`
 - `src/app/not-found.tsx`
 - `src/layout/AppSidebar.tsx`
 

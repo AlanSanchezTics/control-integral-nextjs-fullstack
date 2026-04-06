@@ -15,6 +15,13 @@ The project uses a feature-oriented App Router model with two routing surfaces i
 - UI routes: user-facing screens and flow entrypoints.
 - API routes: HTTP transport endpoints under `src/app/api`.
 
+Template reference routes:
+
+- Legacy template pages are hosted under `src/app/storybook/*`.
+- `/storybook/*` is an internal visual reference surface and not a product flow namespace.
+- Final business routes must be implemented outside `storybook` segments.
+- Compatibility bridge routes (`/signin`, `/signup`) may temporarily redirect to `/storybook/*` while final auth routes are being implemented.
+
 Routing is the composition boundary, not the business-logic layer.
 
 Routing layer responsibilities:
@@ -166,6 +173,9 @@ When adding a new route, apply these rules:
 7. Protect future growth.
    - Prefer clear, semantic segment names.
    - Avoid deeply nested route trees for simple flows.
+8. Keep storybook isolated.
+   - Do not implement business logic inside `src/app/storybook/*`.
+   - Use `storybook` only as UI/UX reference while defining final product routes.
 
 ## Anti-Patterns
 

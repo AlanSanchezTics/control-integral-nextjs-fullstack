@@ -62,6 +62,12 @@ En la fase de preparación de stack se habilita infraestructura técnica base pa
 
 Esta fase no altera el flujo funcional de booking/cancel ni los pasos UX del producto.
 
+Referencia UI/UX temporal:
+
+- Las vistas del template inicial se mantienen disponibles en `src/app/storybook/*`.
+- Estas rutas son exclusivamente de referencia visual para implementación y documentación.
+- No deben considerarse rutas finales de negocio del producto.
+
 ## 5. Convención de nomenclatura persistente (obligatoria)
 
 Reglas obligatorias para nuevas entidades/cambios de persistencia:

@@ -64,9 +64,9 @@ import Image from "next/image";
 
 - Files in `src` referencing `images/`: **16**
 
-- `src/app/(admin)/(ui-elements)/avatars/page.tsx`
-- `src/app/(full-width-pages)/(auth)/layout.tsx`
-- `src/app/(full-width-pages)/(error-pages)/error-404/page.tsx`
+- `src/app/storybook/(admin)/(ui-elements)/avatars/page.tsx`
+- `src/app/storybook/(full-width-pages)/(auth)/layout.tsx`
+- `src/app/storybook/(full-width-pages)/(error-pages)/error-404/page.tsx`
 - `src/app/not-found.tsx`
 - `src/components/common/GridShape.tsx`
 - `src/components/ecommerce/DemographicCard.tsx`
@@ -118,7 +118,7 @@ Logo variants in `public/images/logo`:
 
 - Files in `src` referencing `/images/error/`: **2**
 
-- `src/app/(full-width-pages)/(error-pages)/error-404/page.tsx`
+- `src/app/storybook/(full-width-pages)/(error-pages)/error-404/page.tsx`
 - `src/app/not-found.tsx`
 
 

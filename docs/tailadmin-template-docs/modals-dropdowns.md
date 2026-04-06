@@ -28,7 +28,7 @@ This document describes modal and dropdown interaction patterns in TailAdmin, in
 
 ### Modals showcase page
 
-- File: `src/app/(admin)/(ui-elements)/modals/page.tsx`
+- File: `src/app/storybook/(admin)/(ui-elements)/modals/page.tsx`
 - Aggregates modal examples on one screen: ✅ Detected
 
 ## useModal Hook Integration

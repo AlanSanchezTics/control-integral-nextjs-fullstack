@@ -56,7 +56,7 @@ Root provider composition is defined in `src/app/layout.tsx`:
 
 **Subscription points detected:** 4
 
-- `src/app/(admin)/layout.tsx`
+- `src/app/storybook/(admin)/layout.tsx`
 - `src/layout/AppHeader.tsx`
 - `src/layout/AppSidebar.tsx`
 - `src/layout/Backdrop.tsx`

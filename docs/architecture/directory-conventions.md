@@ -53,6 +53,15 @@ Convention:
 - Feature-specific UI flows are rendered through `src/components/<feature>/`.
 - Route-specific loading/error boundaries stay in `src/app/<feature>/`.
 
+### src/app/storybook/
+
+`src/app/storybook/` is reserved for browser-accessible UI references from the base template.
+
+Convention:
+- Use this area only as visual reference.
+- Do not place business flows, domain decisions, or final product contracts here.
+- Final production routes must live in their own feature namespaces outside `storybook`.
+
 ### src/components/
 
 `src/components/` owns reusable React components grouped by domain and UI intent.
