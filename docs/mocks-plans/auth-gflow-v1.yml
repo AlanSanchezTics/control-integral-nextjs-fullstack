@@ -38,3 +38,19 @@ El plan debe dividirse en las siguientes fases:
 4. desarrollo
 5. pruebas
 6. despliegue
+
+Más adelante...
+- El sistema debe permitir a los usuarios cambiar su contraseña desde la configuración de su cuenta.
+- El sistema debe enviar notificaciones a los usuarios en caso de actividades sospechosas en su cuenta.
+- El sistema debe permitir a los usuarios vincular sus cuentas con servicios de autenticación de terceros, como Google o Facebook.
+- El sistema debe permitir a los usuarios revisar y gestionar las sesiones activas en su cuenta.
+- El sistema debe implementar medidas de seguridad adicionales, como CAPTCHA, para prevenir ataques de fuerza bruta.
+- El sistema debe proporcionar una opción para que los usuarios eliminen su cuenta de manera permanente.
+- El sistema debe permitir a los usuarios configurar preguntas de seguridad para recuperar su cuenta en caso de olvido de contraseña.
+- El sistema debe proporcionar una opción para que los usuarios vean y gestionen los dispositivos conectados a su cuenta.
+- El sistema debe implementar un proceso de verificación de correo electrónico o número de teléfono durante el registro para garantizar la autenticidad de los usuarios.
+- El sistema debe permitir a los usuarios configurar notificaciones de seguridad para recibir alertas sobre actividades sospechosas en su cuenta.
+- El sistema debe proporcionar una opción para que los usuarios revisen y gestionen los permisos de las aplicaciones conectadas a su cuenta.
+- El sistema debe implementar un proceso de autenticación basado en tokens para mejorar la seguridad y la escalabilidad del sistema.
+- El sistema debe permitir a los usuarios configurar opciones de privacidad para controlar quién puede ver su información de perfil y actividad en la aplicación.
+- El sistema debe proporcionar una opción para que los usuarios revisen y gestionen las sesiones activas en su cuenta, incluyendo la capacidad de cerrar sesiones de manera remota.
