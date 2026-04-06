@@ -1,6 +1,7 @@
 import { prisma } from "../db/prisma";
 import { parseLoginIdentifier } from "./identifier";
 import type {
+  AuthRepository,
   AuthUserRecord,
   CreatePasswordResetTokenInput,
   LoginAttemptRecordInput,
@@ -15,7 +16,7 @@ export interface AuthPrismaUserDelegate {
   }): Promise<AuthUserRecord | null>;
   update(args: {
     where: { id: string };
-    data: Partial<AuthUserRecord> & {
+    data: Partial<Pick<AuthUserRecord, "failedLoginAttempts" | "lockedUntil" | "lastLoginAt" | "passwordHash">> & {
       failedLoginAttempts?: number;
       lockedUntil?: Date | null;
       lastLoginAt?: Date | null;
@@ -49,19 +50,6 @@ export interface AuthPrismaClient {
   passwordResetToken?: AuthPrismaPasswordResetTokenDelegate;
 }
 
-export interface AuthRepository {
-  findUserByIdentifier(identifier: string): Promise<AuthUserRecord | null>;
-  updateUserAuthState(
-    userId: string,
-    data: Pick<AuthUserRecord, "failedLoginAttempts" | "lockedUntil" | "lastLoginAt">,
-  ): Promise<void>;
-  updateUserPasswordHash(userId: string, passwordHash: string): Promise<void>;
-  recordLoginAttempt(input: LoginAttemptRecordInput): Promise<void>;
-  createPasswordResetToken(input: CreatePasswordResetTokenInput): Promise<void>;
-  findPasswordResetTokenByHash(tokenHash: string): Promise<PasswordResetTokenRecord | null>;
-  consumePasswordResetToken(tokenId: string, consumedAt: Date): Promise<void>;
-}
-
 export function createPrismaAuthRepository(client: AuthPrismaClient = prisma as unknown as AuthPrismaClient): AuthRepository {
   return {
     async findUserByIdentifier(identifier) {
@@ -83,7 +71,17 @@ export function createPrismaAuthRepository(client: AuthPrismaClient = prisma as 
     async updateUserAuthState(userId, data) {
       await client.user.update({
         where: { id: userId },
-        data,
+        data: {
+          ...(typeof data.failedLoginAttempts === "number"
+            ? { failedLoginAttempts: data.failedLoginAttempts }
+            : {}),
+          ...(data.lockedUntil === null || data.lockedUntil instanceof Date
+            ? { lockedUntil: data.lockedUntil }
+            : {}),
+          ...(data.lastLoginAt === null || data.lastLoginAt instanceof Date
+            ? { lastLoginAt: data.lastLoginAt }
+            : {}),
+        },
       });
     },
     async updateUserPasswordHash(userId, passwordHash) {

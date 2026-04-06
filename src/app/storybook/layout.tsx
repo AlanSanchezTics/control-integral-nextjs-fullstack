@@ -12,6 +12,7 @@ type SessionUser = {
 
 type SessionLike = {
   user?: SessionUser;
+  sessionExpiresAt?: number;
 };
 
 export default async function StorybookProtectedLayout({
@@ -24,8 +25,11 @@ export default async function StorybookProtectedLayout({
     session?.user &&
       (session.user.id ?? session.user.email ?? session.user.name),
   );
+  const isSessionExpired =
+    typeof session?.sessionExpiresAt === "number" &&
+    Date.now() >= session.sessionExpiresAt;
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || isSessionExpired) {
     redirect("/login?callbackUrl=/storybook");
   }
 

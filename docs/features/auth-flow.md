@@ -49,4 +49,5 @@ Describe the user-facing contract for sign-in, session state, logout, and passwo
 
 - This document defines the product contract for the auth flow.
 - Account registration is out of scope in the application UI; users are redirected to sign-in.
-- Session duration is adjusted after sign-in through `POST /api/auth/session/remember` to support remember-me behavior.
+- Session duration is derived at login and persisted in JWT/session claims (`rememberMe`, `sessionExpiresAt`).
+- Migration trace: JWT-only auth rollout completed and `sessions` table removed from persistence schema.

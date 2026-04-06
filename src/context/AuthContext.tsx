@@ -17,6 +17,21 @@ export interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
+export function isSessionActive(session: Session | null): boolean {
+  if (!session) {
+    return false;
+  }
+
+  if (
+    typeof session.sessionExpiresAt === "number" &&
+    Date.now() >= session.sessionExpiresAt
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { data: session, status } = useSession();
 
@@ -29,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       status: status as AuthStatus,
       session: session ?? null,
       user: session?.user ?? null,
-      isAuthenticated: status === "authenticated",
+      isAuthenticated: status === "authenticated" && isSessionActive(session ?? null),
       signOut,
     }),
     [session, signOut, status],

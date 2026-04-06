@@ -1,10 +1,14 @@
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import type { NextAuthOptions } from "next-auth";
+import type { JWT } from "next-auth/jwt";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 
 import { prisma } from "../db/prisma";
-import { AUTH_REMEMBER_SESSION_MAX_AGE_SECONDS } from "./constants";
+import {
+  AUTH_REMEMBER_SESSION_MAX_AGE_SECONDS,
+  AUTH_STANDARD_SESSION_MAX_AGE_SECONDS,
+} from "./constants";
 import { createPrismaAuthRepository } from "./repository";
 import {
   authenticateCredentials,
@@ -65,9 +69,25 @@ export function getAuthSessionOptions(rememberMe = false) {
   };
 }
 
+function resolveRememberMeFromJwtToken(token: JWT): boolean {
+  return token.rememberMe === true;
+}
+
+function resolveSessionExpiresAtFromJwtToken(token: JWT): number {
+  const raw = token.sessionExpiresAt;
+  if (typeof raw === "number" && Number.isFinite(raw)) {
+    return raw;
+  }
+
+  return Date.now() + AUTH_STANDARD_SESSION_MAX_AGE_SECONDS * 1000;
+}
+
 export const authConfig: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  session: getAuthSessionOptions(false),
+  session: getAuthSessionOptions(true),
+  jwt: {
+    maxAge: AUTH_REMEMBER_SESSION_MAX_AGE_SECONDS,
+  },
   providers: [
     Credentials({
       name: "Credentials",
@@ -106,13 +126,44 @@ export const authConfig: NextAuthOptions = {
           return null;
         }
 
-        return result.user;
+        return {
+          ...result.user,
+          rememberMe: result.rememberMe,
+          sessionMaxAgeSeconds: result.sessionMaxAgeSeconds,
+        };
       },
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        const rememberMe = (user as { rememberMe?: boolean }).rememberMe === true;
+        const sessionMaxAgeSeconds = (user as { sessionMaxAgeSeconds?: number }).sessionMaxAgeSeconds;
+
+        token.rememberMe = rememberMe;
+        token.sessionExpiresAt =
+          Date.now() +
+          (typeof sessionMaxAgeSeconds === "number"
+            ? sessionMaxAgeSeconds
+            : resolveSessionMaxAgeSeconds(rememberMe)) *
+            1000;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      session.rememberMe = resolveRememberMeFromJwtToken(token);
+      session.sessionExpiresAt = resolveSessionExpiresAtFromJwtToken(token);
+
+      if (session.user && token.sub) {
+        session.user.id = token.sub;
+      }
+
+      return session;
+    },
+  },
   pages: {
     signIn: "/login",
   },
   secret: process.env.AUTH_SECRET,
-  trustHost: process.env.AUTH_TRUST_HOST === "true",
 };

@@ -52,9 +52,23 @@ async function hasValidSession(request: NextRequest): Promise<boolean> {
 
     const data = (await response.json()) as {
       user?: { id?: string | null; email?: string | null; name?: string | null };
+      sessionExpiresAt?: number;
     } | null;
 
-    return Boolean(data?.user && (data.user.id ?? data.user.email ?? data.user.name));
+    const hasUser = Boolean(data?.user && (data.user.id ?? data.user.email ?? data.user.name));
+    if (!hasUser) {
+      return false;
+    }
+
+    if (
+      typeof data?.sessionExpiresAt === "number" &&
+      Number.isFinite(data.sessionExpiresAt) &&
+      Date.now() >= data.sessionExpiresAt
+    ) {
+      return false;
+    }
+
+    return true;
   } catch {
     return false;
   }

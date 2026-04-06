@@ -22,10 +22,10 @@ function getFailureBaseline(user: Pick<AuthUserRecord, "failedLoginAttempts" | "
   }
 
   if (!isActiveLockout(user.lockedUntil, now)) {
-    return user.failedLoginAttempts ?? 0;
+    return user.failedLoginAttempts;
   }
 
-  return user.failedLoginAttempts ?? 0;
+  return user.failedLoginAttempts;
 }
 
 export function applyFailedLoginAttempt(

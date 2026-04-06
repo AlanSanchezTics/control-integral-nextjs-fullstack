@@ -17,7 +17,7 @@ export interface AuthUserRecord {
   email: string;
   phone: string | null;
   passwordHash: string | null;
-  failedLoginAttempts: number | null;
+  failedLoginAttempts: number;
   lockedUntil: Date | null;
   lastLoginAt: Date | null;
   name: string | null;
@@ -74,6 +74,19 @@ export interface CreatePasswordResetTokenInput {
   expires: Date;
   usedAt?: Date | null;
   createdAt: Date;
+}
+
+export interface AuthRepository {
+  findUserByIdentifier(identifier: string): Promise<AuthUserRecord | null>;
+  updateUserAuthState(
+    userId: string,
+    data: Partial<Pick<AuthUserRecord, "failedLoginAttempts" | "lockedUntil" | "lastLoginAt">>,
+  ): Promise<void>;
+  updateUserPasswordHash(userId: string, passwordHash: string): Promise<void>;
+  recordLoginAttempt(input: LoginAttemptRecordInput): Promise<void>;
+  createPasswordResetToken(input: CreatePasswordResetTokenInput): Promise<void>;
+  findPasswordResetTokenByHash(tokenHash: string): Promise<PasswordResetTokenRecord | null>;
+  consumePasswordResetToken(tokenId: string, consumedAt: Date): Promise<void>;
 }
 
 export interface AuthenticateCredentialsResult {

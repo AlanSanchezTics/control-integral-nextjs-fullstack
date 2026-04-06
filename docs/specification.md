@@ -77,7 +77,12 @@ Referencia UI/UX temporal:
 - Las guardas de autenticación se ejecutan en `middleware.ts` para proteger rutas privadas y permitir únicamente la superficie pública de autenticación.
 - El login acepta correo electrónico o número de teléfono como identificador, más contraseña.
 - La opción "Remember me" extiende la duración de sesión frente al valor estándar.
-- El frontend ajusta la expiración efectiva de sesión por usuario tras login usando `/api/auth/session/remember`.
+- La sesión se gestiona en modo JWT-only.
+- El contrato de sesión expone `session.rememberMe` y `session.sessionExpiresAt` (epoch ms).
+- La expiración efectiva se define al momento de login:
+  - `rememberMe=true` usa la duración larga configurada.
+  - `rememberMe=false` usa la duración estándar configurada.
+- Las guardas de frontend y backend deben tratar sesiones vencidas (`Date.now() >= session.sessionExpiresAt`) como no autenticadas.
 - El reset de contraseña opera con:
   - `POST /api/auth/reset-password/request`
   - `POST /api/auth/reset-password/confirm`

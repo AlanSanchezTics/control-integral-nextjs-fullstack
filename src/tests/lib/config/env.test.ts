@@ -15,7 +15,7 @@ describe("env contract", () => {
       AUTH_SECRET: "secret",
       AUTH_PASSWORD_PEPPER: "pepper_secret",
       AUTH_TRUST_HOST: "true",
-    } as NodeJS.ProcessEnv);
+    } as unknown as NodeJS.ProcessEnv);
 
     expect(env.DATABASE_URL).toBe("mysql://app:app@localhost:3307/control_integral_app");
     expect(env.AUTH_SECRET).toBe("secret");

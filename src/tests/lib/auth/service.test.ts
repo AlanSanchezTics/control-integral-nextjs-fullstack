@@ -17,21 +17,21 @@ function createFakeRepository(user: AuthUserRecord | null): {
   attempts: LoginAttemptRecordInput[];
   updatedStates: Array<{
     userId: string;
-    data: {
+    data: Partial<{
       failedLoginAttempts: number;
       lockedUntil: Date | null;
       lastLoginAt: Date | null;
-    };
+    }>;
   }>;
 } {
   const attempts: LoginAttemptRecordInput[] = [];
   const updatedStates: Array<{
     userId: string;
-    data: {
+    data: Partial<{
       failedLoginAttempts: number;
       lockedUntil: Date | null;
       lastLoginAt: Date | null;
-    };
+    }>;
   }> = [];
 
   return {

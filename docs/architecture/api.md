@@ -190,8 +190,6 @@ The auth flow currently exposes these additional handlers:
 - `POST /api/auth/reset-password/confirm`
   - Accepts email, reset token, and new password.
   - Returns stable `errorCode` values for invalid/expired/consumed tokens.
-- `POST /api/auth/session/remember`
-  - Adjusts session expiration for the active session based on remember-me intent.
 
 ---
 

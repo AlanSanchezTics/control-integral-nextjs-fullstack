@@ -133,16 +133,6 @@ export function useSignInForm(callbackUrl = "/") {
         });
 
         if (response?.ok && !response.error) {
-          await fetch("/api/auth/session/remember", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              rememberMe: result.data.rememberMe,
-            }),
-          }).catch(() => null);
-
           setIdentifier("");
           setPassword("");
           setRememberMe(false);
