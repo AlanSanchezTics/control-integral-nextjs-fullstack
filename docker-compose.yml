@@ -20,5 +20,19 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
 
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: ciaig-phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 0
+    ports:
+      - "8082:80"
+
 volumes:
   mariadb_data:

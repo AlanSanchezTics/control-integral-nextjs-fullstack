@@ -59,3 +59,7 @@ Useful scripts:
 - `npm run db:migrate:deploy`
 - `npm run test:unit`
 - `npm run test:e2e`
+
+Local DB admin:
+
+- phpMyAdmin via Docker Compose: `http://localhost:8082`
