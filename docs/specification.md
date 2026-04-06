@@ -68,6 +68,23 @@ Referencia UI/UX temporal:
 - Estas rutas son exclusivamente de referencia visual para implementación y documentación.
 - No deben considerarse rutas finales de negocio del producto.
 
+## 4.1 Flujo de autenticación de usuarios
+
+- El frontend centraliza el estado de autenticación mediante `SessionProvider` y un `AuthContext` propio.
+- `AuthContext` expone, como mínimo, `status`, `session`, `user`, `isAuthenticated` y `signOut`.
+- La superficie pública del flujo de autenticación usa `/login` como entrada principal y `/reset-password` como recuperación de acceso.
+- Las rutas legacy `/signin` y `/signup` se mantienen solo como compatibilidad transitoria y redirigen a `/login`.
+- Las guardas de autenticación se ejecutan en `middleware.ts` para proteger rutas privadas y permitir únicamente la superficie pública de autenticación.
+- El login acepta correo electrónico o número de teléfono como identificador, más contraseña.
+- La opción "Remember me" extiende la duración de sesión frente al valor estándar.
+- El frontend ajusta la expiración efectiva de sesión por usuario tras login usando `/api/auth/session/remember`.
+- El reset de contraseña opera con:
+  - `POST /api/auth/reset-password/request`
+  - `POST /api/auth/reset-password/confirm`
+- Los mensajes visibles de error deben permanecer estables y no revelar si la cuenta existe cuando falle la autenticación.
+- Los estados de cuenta bloqueada deben tratarse como un resultado funcional del flujo de autenticación, no como una excepción técnica.
+- El acceso a la sesión debe comportarse de forma consistente en escritorio y dispositivos móviles.
+
 ## 5. Convención de nomenclatura persistente (obligatoria)
 
 Reglas obligatorias para nuevas entidades/cambios de persistencia:

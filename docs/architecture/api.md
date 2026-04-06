@@ -180,6 +180,19 @@ As part of the technical stack foundation, the project includes the NextAuth tra
 
 This endpoint is infrastructure-level and does not represent a business workflow change by itself.
 
+## Authentication API Surface (Current)
+
+The auth flow currently exposes these additional handlers:
+
+- `POST /api/auth/reset-password/request`
+  - Accepts email input.
+  - Always responds with a generic message to avoid account enumeration.
+- `POST /api/auth/reset-password/confirm`
+  - Accepts email, reset token, and new password.
+  - Returns stable `errorCode` values for invalid/expired/consumed tokens.
+- `POST /api/auth/session/remember`
+  - Adjusts session expiration for the active session based on remember-me intent.
+
 ---
 
 ## Evolution and Versioning Considerations

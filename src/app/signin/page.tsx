@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function SignInRedirect() {
-  redirect("/storybook/signin");
+  redirect("/login");
 }
