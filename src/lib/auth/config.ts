@@ -10,6 +10,7 @@ const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
 });
+const passwordPepper = process.env.AUTH_PASSWORD_PEPPER ?? "";
 
 export const authConfig: NextAuthConfig = {
   adapter: PrismaAdapter(prisma),
@@ -24,6 +25,10 @@ export const authConfig: NextAuthConfig = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        if (!passwordPepper) {
+          return null;
+        }
+
         const parsed = credentialsSchema.safeParse(credentials);
         if (!parsed.success) {
           return null;
@@ -37,7 +42,11 @@ export const authConfig: NextAuthConfig = {
           return null;
         }
 
-        const isValidPassword = verifyPassword(parsed.data.password, user.passwordHash);
+        const isValidPassword = verifyPassword(
+          parsed.data.password,
+          user.passwordHash,
+          passwordPepper,
+        );
         if (!isValidPassword) {
           return null;
         }
