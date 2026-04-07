@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 import type { FormEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   resetPasswordConfirmSchema,
@@ -20,22 +21,23 @@ const emptyFieldErrors: ResetFieldErrors = {
   confirmPassword: "",
 };
 
-function resolveResetErrorMessage(errorCode: string | null | undefined): string {
+export function resolveResetErrorKey(errorCode: string | null | undefined): string {
   switch (errorCode) {
     case "AUTH_INVALID_IDENTIFIER":
     case "AUTH_RESET_TOKEN_INVALID":
-      return "We could not verify that reset code.";
+      return "resetPassword.errors.invalidCode";
     case "AUTH_RESET_TOKEN_EXPIRED":
-      return "That reset code expired. Request a new one.";
+      return "resetPassword.errors.expiredCode";
     case "AUTH_RESET_TOKEN_CONSUMED":
-      return "That reset code was already used.";
+      return "resetPassword.errors.consumedCode";
     default:
-      return "We could not complete that request. Try again.";
+      return "resetPassword.errors.generic";
   }
 }
 
 function toFieldErrors(
   issues: Array<{ path: PropertyKey[]; message: string }>,
+  translate: (key: string) => string,
 ): ResetFieldErrors {
   const nextErrors: ResetFieldErrors = { ...emptyFieldErrors };
 
@@ -47,7 +49,7 @@ function toFieldErrors(
       field === "password" ||
       field === "confirmPassword"
     ) {
-      nextErrors[field] = issue.message;
+      nextErrors[field] = translate(issue.message);
     }
   }
 
@@ -69,6 +71,7 @@ async function readJsonResponse(response: Response): Promise<{
 }
 
 export function useResetPasswordForm() {
+  const { t } = useTranslation("auth");
   const [stage, setStage] = useState<ResetFlowStage>("request");
   const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
@@ -163,7 +166,7 @@ export function useResetPasswordForm() {
 
       const result = resetPasswordRequestSchema.safeParse({ email });
       if (!result.success) {
-        setFieldErrors(toFieldErrors(result.error.issues));
+        setFieldErrors(toFieldErrors(result.error.issues, t));
         return;
       }
 
@@ -181,23 +184,22 @@ export function useResetPasswordForm() {
         const payload = await readJsonResponse(response);
 
         if (!response.ok) {
-          setRequestError(resolveResetErrorMessage(payload.errorCode));
+          setRequestError(t(resolveResetErrorKey(payload.errorCode)));
           return;
         }
 
         setStage("confirm");
         setRequestMessage(
-          payload.message ??
-            "If that email exists, we sent a reset code with the next steps.",
+          payload.message ?? t("resetPassword.messages.requestSuccessDefault"),
         );
         setRequestError("");
       } catch {
-        setRequestError(resolveResetErrorMessage(null));
+        setRequestError(t(resolveResetErrorKey(null)));
       } finally {
         setIsRequestSubmitting(false);
       }
     },
-    [email, isRequestSubmitting],
+    [email, isRequestSubmitting, t],
   );
 
   const handleConfirmSubmit = useCallback(
@@ -225,7 +227,7 @@ export function useResetPasswordForm() {
       });
 
       if (!result.success) {
-        setFieldErrors(toFieldErrors(result.error.issues));
+        setFieldErrors(toFieldErrors(result.error.issues, t));
         return;
       }
 
@@ -247,14 +249,13 @@ export function useResetPasswordForm() {
         const payload = await readJsonResponse(response);
 
         if (!response.ok) {
-          setConfirmError(resolveResetErrorMessage(payload.errorCode));
+          setConfirmError(t(resolveResetErrorKey(payload.errorCode)));
           return;
         }
 
         setStage("done");
         setConfirmMessage(
-          payload.message ??
-            "Your password has been updated. You can sign in now.",
+          payload.message ?? t("resetPassword.messages.confirmSuccessDefault"),
         );
         setConfirmError("");
         setToken("");
@@ -262,12 +263,12 @@ export function useResetPasswordForm() {
         setConfirmPassword("");
         setShowPassword(false);
       } catch {
-        setConfirmError(resolveResetErrorMessage(null));
+        setConfirmError(t(resolveResetErrorKey(null)));
       } finally {
         setIsConfirmSubmitting(false);
       }
     },
-    [confirmPassword, email, isConfirmSubmitting, password, token],
+    [confirmPassword, email, isConfirmSubmitting, password, t, token],
   );
 
   const restartFlow = useCallback(() => {

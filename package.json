@@ -34,6 +34,7 @@
     "apexcharts": "^4.7.0",
     "autoprefixer": "^10.4.22",
     "flatpickr": "^4.6.13",
+    "i18next": "24.2.3",
     "next": "^16.1.6",
     "next-auth": "4.24.13",
     "react": "^19.2.0",
@@ -42,6 +43,7 @@
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.2.0",
     "react-dropzone": "^14.3.8",
+    "react-i18next": "15.7.4",
     "swiper": "^11.2.10",
     "tailwind-merge": "^2.6.0",
     "zod": "4.3.6"

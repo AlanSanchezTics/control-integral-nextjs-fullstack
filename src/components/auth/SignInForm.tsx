@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 
 import Button from "@/components/ui/button/Button";
 import Checkbox from "@/components/form/input/Checkbox";
-import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
+import { EyeCloseIcon, EyeIcon } from "@/icons";
 import AuthField from "./AuthField";
 import { useSignInForm } from "@/hooks/auth/use-sign-in-form";
 
@@ -13,6 +14,7 @@ interface SignInFormProps {
 }
 
 export default function SignInForm({ callbackUrl = "/" }: SignInFormProps) {
+  const { t } = useTranslation("auth");
   const form = useSignInForm(callbackUrl);
 
   return (
@@ -21,10 +23,10 @@ export default function SignInForm({ callbackUrl = "/" }: SignInFormProps) {
       <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center">
         <div className="mb-5 sm:mb-8">
           <h1 className="mb-2 text-title-sm font-semibold text-gray-800 dark:text-white/90 sm:text-title-md">
-            Sign In
+            {t("signin.title")}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Use your email address or phone number to sign in.
+            {t("signin.subtitle")}
           </p>
         </div>
 
@@ -33,24 +35,24 @@ export default function SignInForm({ callbackUrl = "/" }: SignInFormProps) {
             <AuthField
               id="identifier"
               name="identifier"
-              label="Email or phone"
+              label={t("signin.identifierLabel")}
               value={form.identifier}
               onChange={(event) => form.handleIdentifierChange(event.target.value)}
-              placeholder="info@gmail.com or +1 555 111 2222"
+              placeholder={t("signin.identifierPlaceholder")}
               autoComplete="username"
               inputMode="text"
               error={form.fieldErrors.identifier}
-              hint="We will validate the identifier against your account."
+              hint={t("signin.identifierHint")}
             />
 
             <AuthField
               id="password"
               name="password"
-              label="Password"
+              label={t("signin.passwordLabel")}
               type={form.showPassword ? "text" : "password"}
               value={form.password}
               onChange={(event) => form.handlePasswordChange(event.target.value)}
-              placeholder="Enter your password"
+              placeholder={t("signin.passwordPlaceholder")}
               autoComplete="current-password"
               error={form.fieldErrors.password}
               trailingElement={
@@ -58,7 +60,11 @@ export default function SignInForm({ callbackUrl = "/" }: SignInFormProps) {
                   type="button"
                   onClick={form.togglePasswordVisibility}
                   className="text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
-                  aria-label={form.showPassword ? "Hide password" : "Show password"}
+                  aria-label={
+                    form.showPassword
+                      ? t("signin.hidePassword")
+                      : t("signin.showPassword")
+                  }
                 >
                   {form.showPassword ? <EyeIcon /> : <EyeCloseIcon />}
                 </button>
@@ -69,14 +75,14 @@ export default function SignInForm({ callbackUrl = "/" }: SignInFormProps) {
               <Checkbox
                 checked={form.rememberMe}
                 onChange={form.handleRememberMeChange}
-                label="Keep me signed in"
+                label={t("signin.rememberMe")}
               />
 
               <Link
                 href="/reset-password"
                 className="text-sm font-medium text-brand-500 hover:text-brand-600 dark:text-brand-400"
               >
-                Forgot password?
+                {t("signin.forgotPassword")}
               </Link>
             </div>
 
@@ -87,7 +93,7 @@ export default function SignInForm({ callbackUrl = "/" }: SignInFormProps) {
             ) : null}
 
             <Button className="w-full" size="sm" disabled={!form.canSubmit}>
-              {form.isSubmitting ? "Signing in..." : "Sign in"}
+              {form.isSubmitting ? t("signin.submitting") : t("signin.submit")}
             </Button>
           </div>
         </form>

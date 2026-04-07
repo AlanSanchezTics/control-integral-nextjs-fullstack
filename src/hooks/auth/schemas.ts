@@ -43,13 +43,13 @@ export const signInSchema = z.object({
   identifier: z
     .string()
     .trim()
-    .min(1, "Enter your email address or phone number.")
+    .min(1, "signin.validation.identifierRequired")
     .refine(isValidAuthIdentifier, {
-      message: "Enter a valid email address or phone number.",
+      message: "signin.validation.identifierInvalid",
     }),
   password: z
     .string()
-    .min(8, "Password must be at least 8 characters long."),
+    .min(8, "signin.validation.passwordMin"),
   rememberMe: z.boolean(),
 });
 
@@ -57,8 +57,8 @@ export const resetPasswordRequestSchema = z.object({
   email: z
     .string()
     .trim()
-    .min(1, "Enter your email address.")
-    .email("Enter a valid email address."),
+    .min(1, "resetPassword.validation.emailRequired")
+    .email("resetPassword.validation.emailInvalid"),
 });
 
 export const resetPasswordConfirmSchema = z
@@ -66,26 +66,26 @@ export const resetPasswordConfirmSchema = z
     email: z
       .string()
       .trim()
-      .min(1, "Enter your email address.")
-      .email("Enter a valid email address."),
+      .min(1, "resetPassword.validation.emailRequired")
+      .email("resetPassword.validation.emailInvalid"),
     token: z
       .string()
       .trim()
-      .min(1, "Enter the reset code.")
-      .max(255, "Enter a shorter reset code."),
+      .min(1, "resetPassword.validation.tokenRequired")
+      .max(255, "resetPassword.validation.tokenMax"),
     password: z
       .string()
-      .min(8, "Password must be at least 8 characters long."),
+      .min(8, "resetPassword.validation.passwordMin"),
     confirmPassword: z
       .string()
-      .min(1, "Confirm your new password."),
+      .min(1, "resetPassword.validation.confirmRequired"),
   })
   .superRefine((data, context) => {
     if (data.password !== data.confirmPassword) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["confirmPassword"],
-        message: "Passwords do not match.",
+        message: "resetPassword.validation.confirmMismatch",
       });
     }
   });

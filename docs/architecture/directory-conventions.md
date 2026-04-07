@@ -129,6 +129,16 @@ Expected sub-responsibilities:
 Rule:
 - If logic must remain correct independent of React rendering, it belongs in `src/lib/`.
 
+### src/lib/i18n/
+
+`src/lib/i18n/` owns localization runtime and translation resources.
+
+Convention:
+- `config.ts` defines supported locales, fallback locale, namespace config, and i18n bootstrapping.
+- `language.ts` owns language normalization and persistence (`app_lang` cookie + `localStorage`).
+- `locales/<lang>/<namespace>.json` stores translation resources by language and namespace.
+- New feature text should be added as a namespace file instead of extending unrelated namespaces.
+
 ### prisma/
 
 `prisma/` owns schema and migration artifacts for relational persistence.

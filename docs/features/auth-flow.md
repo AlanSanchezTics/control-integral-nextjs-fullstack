@@ -51,3 +51,6 @@ Describe the user-facing contract for sign-in, session state, logout, and passwo
 - Account registration is out of scope in the application UI; users are redirected to sign-in.
 - Session duration is derived at login and persisted in JWT/session claims (`rememberMe`, `sessionExpiresAt`).
 - Migration trace: JWT-only auth rollout completed and `sessions` table removed from persistence schema.
+- Authentication UI copy is localized through `react-i18next` namespace `auth` (`es`, `en`, fallback `es`).
+- Auth language preference is persisted in `app_lang` cookie and mirrored in `localStorage`.
+- Hook-level validation/network/auth messages map stable error codes and schema issues to translation keys.

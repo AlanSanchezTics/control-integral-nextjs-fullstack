@@ -21,7 +21,7 @@ export default async function RootLayout({
   const session = (await getServerSession(authConfig)) as Session | null;
 
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={`${outfit.className} dark:bg-gray-900`}>
         <AppProviders session={session}>
           <ThemeProvider>

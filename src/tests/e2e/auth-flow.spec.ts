@@ -3,13 +3,15 @@ import { expect, test } from "@playwright/test";
 test("login shows validation errors on empty submit", async ({ page }) => {
   await page.goto("/login");
 
-  await page.getByRole("button", { name: "Sign in", exact: true }).click();
+  await page
+    .getByRole("button", { name: /Iniciar sesión|Sign in/, exact: true })
+    .click();
 
   await expect(
-    page.getByText("Enter a valid email address or phone number."),
+    page.getByText(/Ingresa un correo electrónico o teléfono válido\./),
   ).toBeVisible();
   await expect(
-    page.getByText("Password must be at least 8 characters long."),
+    page.getByText(/La contraseña debe tener al menos 8 caracteres\./),
   ).toBeVisible();
 });
 
@@ -17,11 +19,13 @@ test("reset-password request shows validation on empty submit", async ({
   page,
 }) => {
   await page.goto("/reset-password");
-  await expect(page.getByRole("heading", { name: "Reset Password" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Restablecer contraseña|Reset Password/ }),
+  ).toBeVisible();
 
-  await page.getByRole("button", { name: "Send reset code" }).click();
+  await page.getByRole("button", { name: /Enviar código|Send reset code/ }).click();
 
-  await expect(page.getByText("Enter a valid email address.")).toBeVisible();
+  await expect(page.getByText(/Ingresa un correo electrónico válido\./)).toBeVisible();
 });
 
 test("reset-password request transitions to confirm step", async ({ page }) => {
@@ -37,16 +41,22 @@ test("reset-password request transitions to confirm step", async ({ page }) => {
   });
 
   await page.goto("/reset-password");
-  await expect(page.getByRole("heading", { name: "Reset Password" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Restablecer contraseña|Reset Password/ }),
+  ).toBeVisible();
   await page
     .locator('input[name="email"]')
     .fill("user@example.com");
-  await page.getByRole("button", { name: "Send reset code" }).click();
+  await page.getByRole("button", { name: /Enviar código|Send reset code/ }).click();
 
   await expect(
-    page.getByRole("heading", { name: "Confirm reset" }),
+    page.getByRole("heading", { name: /Confirmar restablecimiento|Confirm reset/ }),
   ).toBeVisible();
-  await expect(page.getByText("Enter the code sent to your email")).toBeVisible();
+  await expect(
+    page.getByText(
+      /Ingresa el código enviado a tu correo|Enter the code sent to your email/,
+    ),
+  ).toBeVisible();
 });
 
 test("reset-password confirm completes successfully", async ({ page }) => {
@@ -69,9 +79,11 @@ test("reset-password confirm completes successfully", async ({ page }) => {
   });
 
   await page.goto("/reset-password");
-  await expect(page.getByRole("heading", { name: "Reset Password" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Restablecer contraseña|Reset Password/ }),
+  ).toBeVisible();
   await page.locator('input[name="email"]').fill("user@example.com");
-  await page.getByRole("button", { name: "Send reset code" }).click();
+  await page.getByRole("button", { name: /Enviar código|Send reset code/ }).click();
 
   await page.locator('input[name="token"]').fill("ABC123");
   await page.locator('input[name="password"]').fill("new-password-123");
@@ -81,11 +93,12 @@ test("reset-password confirm completes successfully", async ({ page }) => {
   await page.getByRole("button", { name: "Update password" }).click();
 
   await expect(
-    page.getByText("Your password has been updated. You can sign in now.", {
-      exact: true,
-    }),
+    page.getByText(
+      /Your password has been updated\. You can sign in now\.|Tu contraseña se actualizó\. Ya puedes iniciar sesión\./,
+      { exact: true },
+    ),
   ).toBeVisible();
   await expect(
-    page.getByRole("link", { name: "Return to sign in" }),
+    page.getByRole("link", { name: /Regresar a iniciar sesión|Return to sign in/ }),
   ).toHaveAttribute("href", "/login");
 });

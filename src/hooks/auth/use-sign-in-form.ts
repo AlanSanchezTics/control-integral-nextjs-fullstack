@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useCallback, useMemo, useState } from "react";
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
 
 import { signInSchema } from "./schemas";
 
@@ -16,26 +17,27 @@ const emptyFieldErrors: SignInFieldErrors = {
   password: "",
 };
 
-function resolveSignInErrorMessage(error: string | null | undefined): string {
+export function resolveSignInErrorKey(error: string | null | undefined): string {
   switch (error) {
     case "CredentialsSignin":
-      return "We could not sign you in with those credentials.";
+      return "signin.errors.invalidCredentials";
     case "AccessDenied":
-      return "Your account cannot be accessed right now. Try again later.";
+      return "signin.errors.accessDenied";
     default:
-      return "We could not sign you in. Check your details and try again.";
+      return "signin.errors.generic";
   }
 }
 
 function toFieldErrors(
   issues: Array<{ path: PropertyKey[]; message: string }>,
+  translate: (key: string) => string,
 ): SignInFieldErrors {
   const nextErrors: SignInFieldErrors = { ...emptyFieldErrors };
 
   for (const issue of issues) {
     const field = issue.path[0];
     if (field === "identifier" || field === "password") {
-      nextErrors[field] = issue.message;
+      nextErrors[field] = translate(issue.message);
     }
   }
 
@@ -43,6 +45,7 @@ function toFieldErrors(
 }
 
 export function useSignInForm(callbackUrl = "/") {
+  const { t } = useTranslation("auth");
   const router = useRouter();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -117,7 +120,7 @@ export function useSignInForm(callbackUrl = "/") {
       });
 
       if (!result.success) {
-        setFieldErrors(toFieldErrors(result.error.issues));
+        setFieldErrors(toFieldErrors(result.error.issues, t));
         return;
       }
 
@@ -142,14 +145,14 @@ export function useSignInForm(callbackUrl = "/") {
           return;
         }
 
-        setFormError(resolveSignInErrorMessage(response?.error ?? null));
+        setFormError(t(resolveSignInErrorKey(response?.error ?? null)));
       } catch {
-        setFormError(resolveSignInErrorMessage(null));
+        setFormError(t(resolveSignInErrorKey(null)));
       } finally {
         setIsSubmitting(false);
       }
     },
-    [callbackUrl, identifier, isSubmitting, password, rememberMe, router],
+    [callbackUrl, identifier, isSubmitting, password, rememberMe, router, t],
   );
 
   return {

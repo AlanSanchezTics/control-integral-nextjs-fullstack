@@ -89,6 +89,10 @@ Referencia UI/UX temporal:
 - Los mensajes visibles de error deben permanecer estables y no revelar si la cuenta existe cuando falle la autenticación.
 - Los estados de cuenta bloqueada deben tratarse como un resultado funcional del flujo de autenticación, no como una excepción técnica.
 - El acceso a la sesión debe comportarse de forma consistente en escritorio y dispositivos móviles.
+- En fase 1 de i18n del flujo auth:
+  - `/login` y `/reset-password` resuelven textos mediante `react-i18next` con namespace `auth`.
+  - Errores de validación cliente y errores de flujo auth se resuelven por clave de traducción.
+  - El selector de idioma del flujo auth persiste preferencia en `app_lang` (cookie + localStorage).
 
 ## 5. Convención de nomenclatura persistente (obligatoria)
 
@@ -137,3 +141,7 @@ Reglas obligatorias:
    - Todo texto visible en rutas/componentes admin debe resolverse con `react-i18next`.
    - Quedan prohibidos literales de UX inline en `app/admin`, `components/admin` y `hooks/admin`.
    - Nuevos textos requieren clave en `es` y `en` antes de merge.
+10. Estructura de recursos i18n:
+   - `src/lib/i18n/config.ts` centraliza idiomas soportados y fallback.
+   - Recursos por namespace viven en `src/lib/i18n/locales/<lang>/<namespace>.json`.
+   - Fase 1 implementa `auth` como primer namespace reutilizable para expansión.

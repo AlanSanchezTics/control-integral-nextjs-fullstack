@@ -1,13 +1,16 @@
+"use client";
+
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 
 import GridShape from "@/components/common/GridShape";
+import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import ThemeTogglerTwo from "@/components/common/ThemeTogglerTwo";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  const authLogoAlt = "CIAIG authentication logo";
-  const authTagline = "Secure access for returning users.";
+  const { t } = useTranslation("auth");
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-white p-6 dark:bg-gray-900 sm:p-0">
@@ -24,18 +27,27 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                 width={231}
                 height={48}
                 src="/images/logo/auth-logo.svg"
-                alt={authLogoAlt}
+                alt={t("layout.logoAlt")}
                 priority
               />
             </Link>
             <p className="text-center text-sm leading-6 text-gray-300 dark:text-white/60">
-              {authTagline}
+              {t("layout.tagline")}
             </p>
           </div>
         </div>
 
-        <div className="fixed bottom-6 right-6 z-50 hidden sm:block">
-          <ThemeTogglerTwo />
+        <div className="fixed right-6 top-6 z-50 hidden sm:block">
+          <LanguageSwitcher />
+        </div>
+
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2">
+          <div className="sm:hidden">
+            <LanguageSwitcher />
+          </div>
+          <div className="hidden sm:block">
+            <ThemeTogglerTwo />
+          </div>
         </div>
       </div>
     </div>

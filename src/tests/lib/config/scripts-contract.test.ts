@@ -7,5 +7,7 @@ describe("package scripts contract", () => {
     expect(pkg.scripts["test:unit"]).toBeDefined();
     expect(pkg.scripts["test:e2e"]).toBeDefined();
     expect(pkg.scripts["db:generate"]).toBeDefined();
+    expect(pkg.dependencies.i18next).toBeDefined();
+    expect(pkg.dependencies["react-i18next"]).toBeDefined();
   });
 });
